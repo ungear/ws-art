@@ -1,0 +1,23 @@
+{
+  "name": "ws-art",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ungear/ws-art.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ungear/ws-art/issues"
+  },
+  "homepage": "https://github.com/ungear/ws-art#readme",
+  "dependencies": {
+    "express": "^4.16.3",
+    "ws": "^5.0.0"
+  }
+}
