@@ -1,0 +1,16 @@
+.workplace{
+
+}
+.palette{
+  display: none
+}
+.canvas{
+  border: 1px solid #ccc;
+}
+.canvas .grid{
+
+}
+.canvas .grid line{
+  stroke: #ccc;
+  stroke-width:1;
+}

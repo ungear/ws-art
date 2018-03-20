@@ -1,15 +1,13 @@
 <html>
   <head>
     <title>WS art</title>
+    <link rel="stylesheet" href="/style.css">
   </head>
   <body>
-    <form name="publish">
-      <input type="text" name="message">
-      <input type="submit" value="Отправить">
-    </form>
-    
-    <!-- здесь будут появляться входящие сообщения -->
-    <div id="subscribe"></div>
+    <div id="workplace" class='workplace'>
+      <div id="palette" class='palette'></div>
+      <svg id="canvas" class='canvas'></svg>
+    </div>
     <script src='./script.js'></script>
   </body>
 </html>
