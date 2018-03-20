@@ -8,10 +8,16 @@
   }
 
   const canvas = document.getElementById('canvas');
+  const drawingGroup = canvas.getElementsByClassName('drawing')[0];
+  const gridGroup = canvas.getElementsByClassName('grid')[0];
+  const caret = drawingGroup.getElementsByClassName('caret')[0];
   const svgNS = "http://www.w3.org/2000/svg";  
 
 
   initializeCanvas();
+
+  canvas.addEventListener('mousemove', onCanvasMouseMove);
+  canvas.addEventListener('click', onCanvasClick)
 
   function initializeCanvas(){
     let canvasWidthPxs = CONFIG.canvas.widthPieces * CONFIG.canvas.pieceSizePx;
@@ -19,10 +25,6 @@
     canvas.setAttribute('width',  canvasWidthPxs);
     canvas.setAttribute('height', canvasHeightPxs);
 
-    let gridGroup = document.createElementNS(svgNS, 'g');
-    gridGroup.classList.add('grid');
-    let drawingGroup = document.createElementNS(svgNS, 'g');
-    drawingGroup.classList.add('drawing');
     // add vertical lines
     for(let i = 1; i*CONFIG.canvas.pieceSizePx < canvasWidthPxs; i++){
       let line = document.createElementNS(svgNS, 'line');
@@ -41,8 +43,29 @@
       line.setAttribute('y2', i*CONFIG.canvas.pieceSizePx);
       gridGroup.appendChild(line);
     }
-    canvas.appendChild(drawingGroup);
-    canvas.appendChild(gridGroup);
+
+    caret.setAttribute('width', CONFIG.canvas.pieceSizePx);
+    caret.setAttribute('height', CONFIG.canvas.pieceSizePx);
+  }
+
+  function onCanvasMouseMove(event){
+    let caretX = event.clientX - event.clientX % CONFIG.canvas.pieceSizePx;
+    let caretY = event.clientY - event.clientY % CONFIG.canvas.pieceSizePx;
+    caret.setAttribute('x', caretX);
+    caret.setAttribute('y', caretY);
+  }
+
+  function onCanvasClick(event){
+    let bit = document.createElementNS(svgNS, 'rect');
+    let bitX = event.clientX - event.clientX % CONFIG.canvas.pieceSizePx;
+    let bitY = event.clientY - event.clientY % CONFIG.canvas.pieceSizePx;
+
+    bit.setAttribute('x', bitX);
+    bit.setAttribute('y', bitY);
+    bit.setAttribute('fill', 'green');
+    bit.setAttribute('width', CONFIG.canvas.pieceSizePx);
+    bit.setAttribute('height', CONFIG.canvas.pieceSizePx);
+    drawingGroup.appendChild(bit);
   }
 
   var socket = new WebSocket("ws://localhost:8081");
