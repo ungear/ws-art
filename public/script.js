@@ -12,7 +12,7 @@
   const gridGroup = canvas.getElementsByClassName('grid')[0];
   const caret = drawingGroup.getElementsByClassName('caret')[0];
   const svgNS = "http://www.w3.org/2000/svg";  
-
+  const socket = new WebSocket("ws://localhost:8081");
 
   initializeCanvas();
 
@@ -49,26 +49,34 @@
   }
 
   function onCanvasMouseMove(event){
-    let caretX = event.clientX - event.clientX % CONFIG.canvas.pieceSizePx;
-    let caretY = event.clientY - event.clientY % CONFIG.canvas.pieceSizePx;
+    let caretX = event.offsetX - event.offsetX % CONFIG.canvas.pieceSizePx;
+    let caretY = event.offsetY - event.offsetY % CONFIG.canvas.pieceSizePx;
+
     caret.setAttribute('x', caretX);
     caret.setAttribute('y', caretY);
   }
 
   function onCanvasClick(event){
-    let bit = document.createElementNS(svgNS, 'rect');
-    let bitX = event.clientX - event.clientX % CONFIG.canvas.pieceSizePx;
-    let bitY = event.clientY - event.clientY % CONFIG.canvas.pieceSizePx;
+    let bitX = event.offsetX - event.offsetX % CONFIG.canvas.pieceSizePx;
+    let bitY = event.offsetY - event.offsetY % CONFIG.canvas.pieceSizePx;
+    addBitOnCanvas({x: bitX, y: bitY});
+    sendNewBitMessage({x: bitX, y: bitY});
+  }
 
-    bit.setAttribute('x', bitX);
-    bit.setAttribute('y', bitY);
+  function addBitOnCanvas({x,y}){
+    let bit = document.createElementNS(svgNS, 'rect');
+    bit.setAttribute('x', x);
+    bit.setAttribute('y', y);
     bit.setAttribute('fill', 'green');
     bit.setAttribute('width', CONFIG.canvas.pieceSizePx);
     bit.setAttribute('height', CONFIG.canvas.pieceSizePx);
     drawingGroup.appendChild(bit);
   }
 
-  var socket = new WebSocket("ws://localhost:8081");
+  function sendNewBitMessage(payload){
+    socket.send(JSON.stringify(payload));
+  }
+  //var socket = new WebSocket("ws://localhost:8081");
   /*
   // отправить сообщение из формы publish
   document.forms.publish.onsubmit = function() {
