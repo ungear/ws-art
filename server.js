@@ -18,14 +18,15 @@ var webSocketServer = new WebSocketServer.Server({
 
 webSocketServer.on('connection', function(ws) {
   var id = Math.random();
+  ws.id = id;
   clients[id] = ws;
   console.log("a new connection has been established: " + id);
 
   ws.on('message', function(message) {
     console.log('message received: ' + message);
 
-    for (var key in clients) {
-      clients[key].send(message);
+    for (let cId in clients) {
+      if(cId != ws.id) clients[cId].send(message);
     }
   });
 
