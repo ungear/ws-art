@@ -18,6 +18,7 @@
 
   canvas.addEventListener('mousemove', onCanvasMouseMove);
   canvas.addEventListener('click', onCanvasClick)
+  socket.onmessage = onNewBitMessageReceived;
 
   function initializeCanvas(){
     let canvasWidthPxs = CONFIG.canvas.widthPieces * CONFIG.canvas.pieceSizePx;
@@ -76,6 +77,10 @@
   function sendNewBitMessage(payload){
     socket.send(JSON.stringify(payload));
   }
+
+  function onNewBitMessageReceived(event) {
+    addBitOnCanvas(JSON.parse(event.data))
+  };
   //var socket = new WebSocket("ws://localhost:8081");
   /*
   // отправить сообщение из формы publish
