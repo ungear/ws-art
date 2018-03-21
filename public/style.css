@@ -1,8 +1,17 @@
 .workplace{
-
+  display: flex;
 }
 .palette{
-  display: none
+  width: 115px;
+  display: flex;
+  flex-wrap: wrap;
+  height: min-content;
+}
+.palette .sample{
+  width: 30px;
+  height: 30px;
+  margin: 0 5px 5px 0;
+  border:1px solid #333;
 }
 .canvas{
   border: 1px solid #ccc;

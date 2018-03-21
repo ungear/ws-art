@@ -4,6 +4,11 @@
       pieceSizePx: 10,
       widthPieces: 60,
       heightPieces: 30
+    },
+    palette:{
+      colors: [
+        "#f00", "#0f0", "#00f", "#ff0", "#f0f", "#0ff"
+      ]
     }
   }
 
@@ -12,12 +17,14 @@
   const gridGroup = canvas.getElementsByClassName('grid')[0];
   const caret = drawingGroup.getElementsByClassName('caret')[0];
   const svgNS = "http://www.w3.org/2000/svg";  
-  const socket = new WebSocket("ws://localhost:8081");
+  const socket = new WebSocket("ws://localhost:8081");  
+  const palette = document.getElementById('palette');
 
   initializeCanvas();
+  initializePalette();
 
   canvas.addEventListener('mousemove', onCanvasMouseMove);
-  canvas.addEventListener('click', onCanvasClick)
+  canvas.addEventListener('click', onCanvasClick);
   socket.onmessage = onNewBitMessageReceived;
 
   function initializeCanvas(){
@@ -47,6 +54,16 @@
 
     caret.setAttribute('width', CONFIG.canvas.pieceSizePx);
     caret.setAttribute('height', CONFIG.canvas.pieceSizePx);
+  }
+
+  function initializePalette(){
+    CONFIG.palette.colors.forEach(c => {
+      let colorSample = document.createElement('div');
+      colorSample.classList.add("sample");
+      colorSample.style.backgroundColor = c;
+      colorSample.dataset.color = c;
+      palette.appendChild(colorSample)
+    })
   }
 
   function onCanvasMouseMove(event){
