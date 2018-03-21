@@ -19,12 +19,15 @@
   const svgNS = "http://www.w3.org/2000/svg";  
   const socket = new WebSocket("ws://localhost:8081");  
   const palette = document.getElementById('palette');
+  
+  let activeColor;
 
   initializeCanvas();
   initializePalette();
 
   canvas.addEventListener('mousemove', onCanvasMouseMove);
   canvas.addEventListener('click', onCanvasClick);
+  palette.addEventListener('click', onPaletteClick);
   socket.onmessage = onNewBitMessageReceived;
 
   function initializeCanvas(){
@@ -64,30 +67,38 @@
       colorSample.dataset.color = c;
       palette.appendChild(colorSample)
     })
+
+    activeColor = CONFIG.palette.colors[0];
   }
 
+  function onPaletteClick(event){
+    if(event.target.dataset.color)
+      activeColor = event.target.dataset.color;
+  }
   function onCanvasMouseMove(event){
     let caretX = event.offsetX - event.offsetX % CONFIG.canvas.pieceSizePx;
     let caretY = event.offsetY - event.offsetY % CONFIG.canvas.pieceSizePx;
 
     caret.setAttribute('x', caretX);
     caret.setAttribute('y', caretY);
+    caret.setAttribute('fill', activeColor);
   }
 
   function onCanvasClick(event){
     let bitX = event.offsetX - event.offsetX % CONFIG.canvas.pieceSizePx;
     let bitY = event.offsetY - event.offsetY % CONFIG.canvas.pieceSizePx;
-    addBitOnCanvas({x: bitX, y: bitY});
-    sendNewBitMessage({x: bitX, y: bitY});
+    addBitOnCanvas({x: bitX, y: bitY, color: activeColor});
+    sendNewBitMessage({x: bitX, y: bitY, color: activeColor});
   }
 
-  function addBitOnCanvas({x,y}){
+  function addBitOnCanvas({x,y, color}){
     let bit = document.createElementNS(svgNS, 'rect');
     bit.setAttribute('x', x);
     bit.setAttribute('y', y);
     bit.setAttribute('fill', 'green');
     bit.setAttribute('width', CONFIG.canvas.pieceSizePx);
     bit.setAttribute('height', CONFIG.canvas.pieceSizePx);
+    bit.setAttribute('fill', color);
     drawingGroup.appendChild(bit);
   }
 
