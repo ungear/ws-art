@@ -8,10 +8,10 @@
   border: 1px solid #ccc;
 }
 .canvas .grid{
-
+  shape-rendering: crispEdges;
 }
 .canvas .grid line{
-  stroke: #ccc;
+  stroke: #efefef;
   stroke-width:1;
 }
 .canvas .drawing .caret{

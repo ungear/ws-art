@@ -1,9 +1,9 @@
 (function(){
   const CONFIG = {
     canvas:{
-      pieceSizePx: 30,
-      widthPieces: 20,
-      heightPieces: 10
+      pieceSizePx: 10,
+      widthPieces: 60,
+      heightPieces: 30
     }
   }
 
