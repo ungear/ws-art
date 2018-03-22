@@ -122,8 +122,8 @@
   function onSocketOpen(){
     addReport("Connection has been established")
   }
-  function onSocketClose(){
-    addReport("Connection has been terminated")
+  function onSocketClose(event){
+    addReport("Connection has been terminated. Code: " + event.code)
   }
 
   function onSocketError(){
