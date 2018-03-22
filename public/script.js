@@ -107,10 +107,23 @@
   }
 
   function sendNewBitMessage(payload){
-    socket.send(JSON.stringify(payload));
+    socket.send(decodePoint(payload));
   }
 
   function onNewBitMessageReceived(event) {
-    addBitOnCanvas(JSON.parse(event.data))
+    addBitOnCanvas(encodePoint(event.data))
   };
+
+  function decodePoint({x,y,color}){
+    return `${x}~${y}~${color}`
+  }
+
+  function encodePoint(p){
+    let params = p.split('~');
+    return {
+      x: params[0],
+      y: params[1],
+      color: params[2],
+    }
+  }
 })()
