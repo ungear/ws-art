@@ -23,3 +23,8 @@
   stroke: #efefef;
   stroke-width:1;
 }
+.report{
+  width: 200px;
+  border: 1px solid #ccc;
+  margin-left: 5px;
+}

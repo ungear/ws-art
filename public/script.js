@@ -23,7 +23,8 @@
   const svgNS = "http://www.w3.org/2000/svg";  
   const socket = new WebSocket("ws://localhost:8081");  
   const palette = document.getElementById('palette');
-  
+  const report = document.getElementById('report');
+
   let activeColor;
 
   initializeCanvas();
@@ -112,6 +113,7 @@
 
   function onNewBitMessageReceived(event) {
     addBitOnCanvas(encodePoint(event.data))
+    addReport("Point received")
   };
 
   function decodePoint({x,y,color}){
@@ -125,5 +127,11 @@
       y: params[1],
       color: params[2],
     }
+  }
+
+  function addReport(text){
+    let r = document.createElement('div');
+    r.innerHTML = text;
+    report.appendChild(r);
   }
 })()
