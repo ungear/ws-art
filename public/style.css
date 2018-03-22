@@ -27,4 +27,7 @@
   width: 200px;
   border: 1px solid #ccc;
   margin-left: 5px;
+  font-size: 12px;
+  height: 300px;
+  overflow: auto;
 }

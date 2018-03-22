@@ -33,7 +33,10 @@
   canvas.addEventListener('mousemove', onCanvasMouseMove);
   canvas.addEventListener('click', onCanvasClick);
   palette.addEventListener('click', onPaletteClick);
+  socket.onopen = onSocketOpen;
   socket.onmessage = onNewBitMessageReceived;
+  socket.onclose = onSocketClose;
+  socket.onerror = onSocketError;
 
   function initializeCanvas(){
     let canvasWidthPxs = CONFIG.canvas.widthPieces * CONFIG.canvas.pieceSizePx;
@@ -116,6 +119,17 @@
     addReport("Point received")
   };
 
+  function onSocketOpen(){
+    addReport("Connection has been established")
+  }
+  function onSocketClose(){
+    addReport("Connection has been terminated")
+  }
+
+  function onSocketError(){
+    addReport("Connection error")
+  }
+
   function decodePoint({x,y,color}){
     return `${x}~${y}~${color}`
   }
@@ -132,6 +146,6 @@
   function addReport(text){
     let r = document.createElement('div');
     r.innerHTML = text;
-    report.appendChild(r);
+    report.prepend(r);
   }
 })()
