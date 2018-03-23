@@ -19,7 +19,7 @@
   const canvas = document.getElementById('canvas');
   const drawingGroup = canvas.getElementsByClassName('drawing')[0];
   const gridGroup = canvas.getElementsByClassName('grid')[0];
-  const caret = drawingGroup.getElementsByClassName('caret')[0];
+  const caret = canvas.getElementsByClassName('caret')[0];
   const svgNS = "http://www.w3.org/2000/svg";  
   const socket = new WebSocket("ws://localhost:8081");  
   const palette = document.getElementById('palette');
@@ -116,6 +116,7 @@
 
   function onNewBitMessageReceived(event) {
     addBitOnCanvas(encodePoint(event.data))
+    console.log(event.source, event.origin)
     addReport("Point received")
   };
 
